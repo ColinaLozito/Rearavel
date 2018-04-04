@@ -49,17 +49,17 @@ export default class Edit extends React.Component{
 
 		axios.put('/api/users/'+this.props.id, this.state).then(response => {
 			console.log(response);
-			
+			this.setState({message:response.data.msj})			
 		}).catch(error => {
 			console.log(error);
-			
+			this.setState({message:'General error', style:'warning-message'})	
 		});
 	}
 
 	render(){
 		return (
 			<div>
-				<h2>Add New User</h2>
+				<h2>Edit User</h2>
 				<form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
 					<div className="form-group">
 						<label className="control-label col-sm-2" htmlFor="name">Name:</label>
@@ -78,6 +78,9 @@ export default class Edit extends React.Component{
 						<div className="col-sm-10">
 							<input type="password" className="form-control" id="pwd" placeholder="Enter a password" name="password" value={this.state.password} onChange={this.handlePasswordChange.bind(this)}/>
 						</div>
+					</div>
+					<div className="form-group">
+						<h3 className={this.state.style}>{this.state.message}</h3>
 					</div>
 					<div className="form-group">
 						<div className="col-sm-offset-2 col-sm-10">

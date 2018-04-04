@@ -70,7 +70,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(10);
+var bind = __webpack_require__(12);
 var isBuffer = __webpack_require__(26);
 
 /*global toString:true*/
@@ -380,6 +380,79 @@ module.exports = {
 "use strict";
 
 
+if (false) {
+  module.exports = require('./cjs/react.production.min.js');
+} else {
+  module.exports = __webpack_require__(45);
+}
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var validateFormat = function validateFormat(format) {};
+
+if (true) {
+  validateFormat = function validateFormat(format) {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  };
+}
+
+function invariant(condition, format, a, b, c, d, e, f) {
+  validateFormat(format);
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(format.replace(/%s/g, function () {
+        return args[argIndex++];
+      }));
+      error.name = 'Invariant Violation';
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+}
+
+module.exports = invariant;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -416,7 +489,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 module.exports = emptyFunction;
 
 /***/ }),
-/* 2 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -439,10 +512,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(11);
+    adapter = __webpack_require__(13);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(11);
+    adapter = __webpack_require__(13);
   }
   return adapter;
 }
@@ -520,80 +593,104 @@ module.exports = defaults;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-if (false) {
-  module.exports = require('./cjs/react.production.min.js');
-} else {
-  module.exports = __webpack_require__(45);
-}
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var validateFormat = function validateFormat(format) {};
-
-if (true) {
-  validateFormat = function validateFormat(format) {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  };
-}
-
-function invariant(condition, format, a, b, c, d, e, f) {
-  validateFormat(format);
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(format.replace(/%s/g, function () {
-        return args[argIndex++];
-      }));
-      error.name = 'Invariant Violation';
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-}
-
-module.exports = invariant;
-
-/***/ }),
 /* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+
+/* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -607,7 +704,7 @@ module.exports = invariant;
 
 
 
-var emptyFunction = __webpack_require__(1);
+var emptyFunction = __webpack_require__(3);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -661,7 +758,52 @@ if (true) {
 module.exports = warning;
 
 /***/ }),
-/* 6 */
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function checkDCE() {
+  /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
+  if (
+    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined' ||
+    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== 'function'
+  ) {
+    return;
+  }
+  if (true) {
+    // This branch is unreachable because this function is only called
+    // in production, but the condition is true only in development.
+    // Therefore if the branch is still here, dead code elimination wasn't
+    // properly applied.
+    // Don't change the message. React DevTools relies on it. Also make sure
+    // this message doesn't occur elsewhere in this function, or it will cause
+    // a false positive.
+    throw new Error('^_^');
+  }
+  try {
+    // Verify that the code above has been dead code eliminated (DCE'd).
+    __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(checkDCE);
+  } catch (err) {
+    // DevTools shouldn't crash React, no matter what.
+    // We should still report in case we break this code.
+    console.error(err);
+  }
+}
+
+if (false) {
+  // DCE check should happen before ReactDOM bundle executes so that
+  // DevTools can report bad minification during injection.
+  checkDCE();
+  module.exports = require('./cjs/react-dom.production.min.js');
+} else {
+  module.exports = __webpack_require__(47);
+}
+
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports) {
 
 var g;
@@ -688,7 +830,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3205,10 +3347,10 @@ Popper.Defaults = Defaults;
 /* harmony default export */ __webpack_exports__["default"] = (Popper);
 //# sourceMappingURL=popper.js.map
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(6)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(8)))
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -13579,13 +13721,13 @@ return jQuery;
 
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(25);
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13603,7 +13745,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13614,7 +13756,7 @@ var settle = __webpack_require__(30);
 var buildURL = __webpack_require__(32);
 var parseHeaders = __webpack_require__(33);
 var isURLSameOrigin = __webpack_require__(34);
-var createError = __webpack_require__(12);
+var createError = __webpack_require__(14);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(35);
 
 module.exports = function xhrAdapter(config) {
@@ -13790,7 +13932,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13815,7 +13957,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13827,7 +13969,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13853,104 +13995,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-
-
-/* eslint-disable no-unused-vars */
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-function toObject(val) {
-	if (val === null || val === undefined) {
-		throw new TypeError('Object.assign cannot be called with null or undefined');
-	}
-
-	return Object(val);
-}
-
-function shouldUseNative() {
-	try {
-		if (!Object.assign) {
-			return false;
-		}
-
-		// Detect buggy property enumeration order in older V8 versions.
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
-		test1[5] = 'de';
-		if (Object.getOwnPropertyNames(test1)[0] === '5') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test2 = {};
-		for (var i = 0; i < 10; i++) {
-			test2['_' + String.fromCharCode(i)] = i;
-		}
-		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-			return test2[n];
-		});
-		if (order2.join('') !== '0123456789') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test3 = {};
-		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-			test3[letter] = letter;
-		});
-		if (Object.keys(Object.assign({}, test3)).join('') !==
-				'abcdefghijklmnopqrst') {
-			return false;
-		}
-
-		return true;
-	} catch (err) {
-		// We don't expect any of the above to throw, but better to be safe.
-		return false;
-	}
-}
-
-module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-	var from;
-	var to = toObject(target);
-	var symbols;
-
-	for (var s = 1; s < arguments.length; s++) {
-		from = Object(arguments[s]);
-
-		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
-				to[key] = from[key];
-			}
-		}
-
-		if (getOwnPropertySymbols) {
-			symbols = getOwnPropertySymbols(from);
-			for (var i = 0; i < symbols.length; i++) {
-				if (propIsEnumerable.call(from, symbols[i])) {
-					to[symbols[i]] = from[symbols[i]];
-				}
-			}
-		}
-	}
-
-	return to;
-};
-
-
-/***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13973,7 +14018,7 @@ if (true) {
 module.exports = emptyObject;
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13987,8 +14032,8 @@ module.exports = emptyObject;
 
 
 if (true) {
-  var invariant = __webpack_require__(4);
-  var warning = __webpack_require__(5);
+  var invariant = __webpack_require__(2);
+  var warning = __webpack_require__(6);
   var ReactPropTypesSecret = __webpack_require__(46);
   var loggedTypeFailures = {};
 }
@@ -14039,56 +14084,11 @@ module.exports = checkPropTypes;
 
 
 /***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function checkDCE() {
-  /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
-  if (
-    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined' ||
-    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== 'function'
-  ) {
-    return;
-  }
-  if (true) {
-    // This branch is unreachable because this function is only called
-    // in production, but the condition is true only in development.
-    // Therefore if the branch is still here, dead code elimination wasn't
-    // properly applied.
-    // Don't change the message. React DevTools relies on it. Also make sure
-    // this message doesn't occur elsewhere in this function, or it will cause
-    // a false positive.
-    throw new Error('^_^');
-  }
-  try {
-    // Verify that the code above has been dead code eliminated (DCE'd).
-    __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(checkDCE);
-  } catch (err) {
-    // DevTools shouldn't crash React, no matter what.
-    // We should still report in case we break this code.
-    console.error(err);
-  }
-}
-
-if (false) {
-  // DCE check should happen before ReactDOM bundle executes so that
-  // DevTools can report bad minification during injection.
-  checkDCE();
-  module.exports = require('./cjs/react-dom.production.min.js');
-} else {
-  module.exports = __webpack_require__(47);
-}
-
-
-/***/ }),
 /* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(20);
-module.exports = __webpack_require__(61);
+module.exports = __webpack_require__(63);
 
 
 /***/ }),
@@ -14104,7 +14104,7 @@ module.exports = __webpack_require__(61);
 
 __webpack_require__(21);
 
-window.axios = __webpack_require__(9);
+window.axios = __webpack_require__(11);
 
 /**
  * Next, we will create a fresh React component instance and attach it to
@@ -14112,9 +14112,9 @@ window.axios = __webpack_require__(9);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-__webpack_require__(60);
-__webpack_require__(66);
-__webpack_require__(68);
+__webpack_require__(44);
+__webpack_require__(61);
+__webpack_require__(62);
 
 /***/ }),
 /* 21 */
@@ -14122,7 +14122,7 @@ __webpack_require__(68);
 
 
 window._ = __webpack_require__(22);
-window.Popper = __webpack_require__(7).default;
+window.Popper = __webpack_require__(9).default;
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -14131,7 +14131,7 @@ window.Popper = __webpack_require__(7).default;
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(8);
+  window.$ = window.jQuery = __webpack_require__(10);
 
   __webpack_require__(24);
 } catch (e) {}
@@ -14142,7 +14142,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(9);
+window.axios = __webpack_require__(11);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -31280,7 +31280,7 @@ if (token) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(23)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(23)(module)))
 
 /***/ }),
 /* 23 */
@@ -31320,7 +31320,7 @@ module.exports = function(module) {
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
 (function (global, factory) {
-	 true ? factory(exports, __webpack_require__(8), __webpack_require__(7)) :
+	 true ? factory(exports, __webpack_require__(10), __webpack_require__(9)) :
 	typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) :
 	(factory((global.bootstrap = {}),global.jQuery,global.Popper));
 }(this, (function (exports,$,Popper) { 'use strict';
@@ -35218,9 +35218,9 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(10);
+var bind = __webpack_require__(12);
 var Axios = __webpack_require__(27);
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(4);
 
 /**
  * Create an instance of Axios
@@ -35253,9 +35253,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(14);
+axios.Cancel = __webpack_require__(16);
 axios.CancelToken = __webpack_require__(42);
-axios.isCancel = __webpack_require__(13);
+axios.isCancel = __webpack_require__(15);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -35303,7 +35303,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(4);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(37);
 var dispatchRequest = __webpack_require__(38);
@@ -35598,7 +35598,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(12);
+var createError = __webpack_require__(14);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -36031,8 +36031,8 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(39);
-var isCancel = __webpack_require__(13);
-var defaults = __webpack_require__(2);
+var isCancel = __webpack_require__(15);
+var defaults = __webpack_require__(4);
 var isAbsoluteURL = __webpack_require__(40);
 var combineURLs = __webpack_require__(41);
 
@@ -36191,7 +36191,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(14);
+var Cancel = __webpack_require__(16);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -36283,7 +36283,234 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 44 */,
+/* 44 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_addons_update__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_addons_update___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_addons_update__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+var User = function (_Component) {
+	_inherits(User, _Component);
+
+	function User() {
+		_classCallCheck(this, User);
+
+		var _this = _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this));
+
+		_this.state = {
+			data: [],
+			url: '/api/users',
+			pagination: []
+		};
+		return _this;
+	}
+
+	_createClass(User, [{
+		key: 'componentWillMount',
+		value: function componentWillMount() {
+			this.fetchUsers();
+		}
+	}, {
+		key: 'fetchUsers',
+		value: function fetchUsers() {
+			var $this = this;
+
+			axios.get(this.state.url).then(function (response) {
+				$this.setState({
+					data: $this.state.data.length > 0 ? $this.state.data.concat(response.data.data) : response.data.data,
+					url: response.data.next_page_url
+				});
+
+				$this.makePagination(response.data);
+			}).catch(function (error) {
+				console.log(error);
+			});
+		}
+	}, {
+		key: 'loadMore',
+		value: function loadMore() {
+			this.setState({
+				url: this.state.pagination.next_page_url
+			});
+
+			this.fetchUsers();
+		}
+	}, {
+		key: 'makePagination',
+		value: function makePagination(data) {
+			var pagination = {
+				current_page: data.current_page,
+				last_page: data.last_page,
+				next_page: data.next_page_url,
+				prev_page: data.prev_page_url
+			};
+
+			this.setState({
+				pagination: pagination
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'div',
+				null,
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'h2',
+					null,
+					'User Listing'
+				),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'a',
+					{ href: '/users/create', className: 'btn btn-primary' },
+					'Add new user'
+				),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'table',
+					{ className: 'table table-bordered' },
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'thead',
+						null,
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'tr',
+							null,
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'th',
+								null,
+								'ID'
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'th',
+								null,
+								'Name'
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'th',
+								null,
+								'Email'
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'th',
+								null,
+								'Action'
+							)
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'tbody',
+						null,
+						this.state.data.map(function (user, i) {
+							return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(UserRow, { key: i, i: i, user: user, object: _this2 });
+						})
+					)
+				),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'button',
+					{ className: 'btn btn-dafault', onClick: this.loadMore.bind(this) },
+					'Load More'
+				)
+			);
+		}
+	}]);
+
+	return User;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (User);
+
+var UserRow = function (_React$Component) {
+	_inherits(UserRow, _React$Component);
+
+	function UserRow() {
+		_classCallCheck(this, UserRow);
+
+		return _possibleConstructorReturn(this, (UserRow.__proto__ || Object.getPrototypeOf(UserRow)).apply(this, arguments));
+	}
+
+	_createClass(UserRow, [{
+		key: 'deleteUser',
+		value: function deleteUser(user, object) {
+			console.log(user);
+
+			var $this = object;
+			axios.delete('api/users/' + user.id).then(function (response) {
+
+				var newState = $this.state.data.slice();
+				newState.splice(newState.indexOf(user), 1);
+				$this.setState({
+					data: newState
+				});
+			}).catch(function (error) {
+				console.log(error);
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'tr',
+				{ key: this.props.i },
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'td',
+					null,
+					this.props.user.id
+				),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'td',
+					null,
+					this.props.user.name
+				),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'td',
+					null,
+					this.props.user.email
+				),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'td',
+					null,
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'a',
+						{ href: "/users/" + this.props.user.id + "/edit", className: 'btn btn-primary' },
+						'EDIT'
+					),
+					'||',
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'a',
+						{ className: 'btn btn-danger', onClick: this.deleteUser.bind(this, this.props.user, this.props.object) },
+						'DELETE'
+					)
+				)
+			);
+		}
+	}]);
+
+	return UserRow;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+if (document.getElementById('app')) {
+	__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(User, null), document.getElementById('app'));
+}
+
+/***/ }),
 /* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -36305,12 +36532,12 @@ if (true) {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(15);
-var emptyObject = __webpack_require__(16);
-var invariant = __webpack_require__(4);
-var warning = __webpack_require__(5);
-var emptyFunction = __webpack_require__(1);
-var checkPropTypes = __webpack_require__(17);
+var _assign = __webpack_require__(5);
+var emptyObject = __webpack_require__(17);
+var invariant = __webpack_require__(2);
+var warning = __webpack_require__(6);
+var emptyFunction = __webpack_require__(3);
+var checkPropTypes = __webpack_require__(18);
 
 // TODO: this is special because it gets imported during build.
 
@@ -37688,19 +37915,19 @@ if (true) {
   (function() {
 'use strict';
 
-var React = __webpack_require__(3);
-var invariant = __webpack_require__(4);
-var warning = __webpack_require__(5);
+var React = __webpack_require__(1);
+var invariant = __webpack_require__(2);
+var warning = __webpack_require__(6);
 var ExecutionEnvironment = __webpack_require__(48);
-var _assign = __webpack_require__(15);
-var emptyFunction = __webpack_require__(1);
+var _assign = __webpack_require__(5);
+var emptyFunction = __webpack_require__(3);
 var EventListener = __webpack_require__(49);
 var getActiveElement = __webpack_require__(50);
 var shallowEqual = __webpack_require__(51);
 var containsNode = __webpack_require__(52);
 var focusNode = __webpack_require__(55);
-var emptyObject = __webpack_require__(16);
-var checkPropTypes = __webpack_require__(17);
+var emptyObject = __webpack_require__(17);
+var checkPropTypes = __webpack_require__(18);
 var hyphenateStyleName = __webpack_require__(56);
 var camelizeStyleName = __webpack_require__(58);
 
@@ -53122,7 +53349,7 @@ module.exports = ExecutionEnvironment;
  * @typechecks
  */
 
-var emptyFunction = __webpack_require__(1);
+var emptyFunction = __webpack_require__(3);
 
 /**
  * Upstream version of event listener. Does not take into account specific
@@ -53586,424 +53813,6 @@ module.exports = camelize;
 
 /***/ }),
 /* 60 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_addons_update__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_addons_update___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_addons_update__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-var User = function (_Component) {
-	_inherits(User, _Component);
-
-	function User() {
-		_classCallCheck(this, User);
-
-		var _this = _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this));
-
-		_this.state = {
-			data: [],
-			url: '/api/users',
-			pagination: []
-		};
-		return _this;
-	}
-
-	_createClass(User, [{
-		key: 'componentWillMount',
-		value: function componentWillMount() {
-			this.fetchUsers();
-		}
-	}, {
-		key: 'fetchUsers',
-		value: function fetchUsers() {
-			var $this = this;
-
-			axios.get(this.state.url).then(function (response) {
-				$this.setState({
-					data: $this.state.data.length > 0 ? $this.state.data.concat(response.data.data) : response.data.data,
-					url: response.data.next_page_url
-				});
-
-				$this.makePagination(response.data);
-			}).catch(function (error) {
-				console.log(error);
-			});
-		}
-	}, {
-		key: 'loadMore',
-		value: function loadMore() {
-			this.setState({
-				url: this.state.pagination.next_page_url
-			});
-
-			this.fetchUsers();
-		}
-	}, {
-		key: 'makePagination',
-		value: function makePagination(data) {
-			var pagination = {
-				current_page: data.current_page,
-				last_page: data.last_page,
-				next_page: data.next_page_url,
-				prev_page: data.prev_page_url
-			};
-
-			this.setState({
-				pagination: pagination
-			});
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _this2 = this;
-
-			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-				'div',
-				null,
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'h2',
-					null,
-					'User Listing'
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'a',
-					{ href: '/users/create', className: 'btn btn-primary' },
-					'Add new user'
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'table',
-					{ className: 'table table-bordered' },
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'thead',
-						null,
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							'tr',
-							null,
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								'th',
-								null,
-								'ID'
-							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								'th',
-								null,
-								'Name'
-							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								'th',
-								null,
-								'Email'
-							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								'th',
-								null,
-								'Action'
-							)
-						)
-					),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'tbody',
-						null,
-						this.state.data.map(function (user, i) {
-							return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(UserRow, { key: i, i: i, user: user, object: _this2 });
-						})
-					)
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'button',
-					{ className: 'btn btn-dafault', onClick: this.loadMore.bind(this) },
-					'Load More'
-				)
-			);
-		}
-	}]);
-
-	return User;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-/* harmony default export */ __webpack_exports__["default"] = (User);
-
-var UserRow = function (_React$Component) {
-	_inherits(UserRow, _React$Component);
-
-	function UserRow() {
-		_classCallCheck(this, UserRow);
-
-		return _possibleConstructorReturn(this, (UserRow.__proto__ || Object.getPrototypeOf(UserRow)).apply(this, arguments));
-	}
-
-	_createClass(UserRow, [{
-		key: 'deleteUser',
-		value: function deleteUser(user, object) {
-			console.log(user);
-
-			var $this = object;
-			axios.delete('api/users/' + user.id).then(function (response) {
-
-				var newState = $this.state.data.slice();
-				newState.splice(newState.indexOf(user), 1);
-				$this.setState({
-					data: newState
-				});
-			}).catch(function (error) {
-				console.log(error);
-			});
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-				'tr',
-				{ key: this.props.i },
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'td',
-					null,
-					this.props.user.id
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'td',
-					null,
-					this.props.user.name
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'td',
-					null,
-					this.props.user.email
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'td',
-					null,
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'a',
-						{ href: "/users/" + this.props.user.id + "/edit", className: 'btn btn-primary' },
-						'EDIT'
-					),
-					'||',
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'a',
-						{ className: 'btn btn-danger', onClick: this.deleteUser.bind(this, this.props.user, this.props.object) },
-						'DELETE'
-					)
-				)
-			);
-		}
-	}]);
-
-	return UserRow;
-}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
-
-if (document.getElementById('app')) {
-	__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(User, null), document.getElementById('app'));
-}
-
-/***/ }),
-/* 61 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var Create = function (_React$Component) {
-	_inherits(Create, _React$Component);
-
-	function Create() {
-		_classCallCheck(this, Create);
-
-		var _this = _possibleConstructorReturn(this, (Create.__proto__ || Object.getPrototypeOf(Create)).call(this));
-
-		_this.state = {
-			name: '',
-			email: '',
-			password: ''
-		};
-		return _this;
-	}
-
-	_createClass(Create, [{
-		key: 'handleNameChange',
-		value: function handleNameChange(e) {
-			this.setState({ name: e.target.value });
-		}
-	}, {
-		key: 'handleEmailChange',
-		value: function handleEmailChange(e) {
-			this.setState({ email: e.target.value });
-		}
-	}, {
-		key: 'handlePasswordChange',
-		value: function handlePasswordChange(e) {
-			this.setState({ password: e.target.value });
-		}
-	}, {
-		key: 'handleSubmit',
-		value: function handleSubmit(e) {
-			e.preventDefault();
-			console.log(this.state);
-
-			axios.post('/api/users', this.state).then(function (response) {
-				console.log(response);
-			}).catch(function (error) {
-				console.log(error);
-			});
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-				'div',
-				null,
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'h2',
-					null,
-					'Add New User'
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'form',
-					{ className: 'form-horizontal', onSubmit: this.handleSubmit.bind(this) },
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'div',
-						{ className: 'form-group' },
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							'label',
-							{ className: 'control-label col-sm-2', htmlFor: 'name' },
-							'Name:'
-						),
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							'div',
-							{ className: 'col-sm-10' },
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'name', placeholder: 'Enter a name', name: 'name', value: this.state.name, onChange: this.handleNameChange.bind(this) })
-						)
-					),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'div',
-						{ className: 'form-group' },
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							'label',
-							{ className: 'control-label col-sm-2', htmlFor: 'email' },
-							'Email'
-						),
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							'dir',
-							{ className: 'col-sm-10' },
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'email', className: 'form-control', id: 'email', placeholder: 'Enter an Email', name: 'email', value: this.state.email, onChange: this.handleEmailChange.bind(this) })
-						)
-					),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'div',
-						{ className: 'form-group' },
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							'label',
-							{ className: 'control-label col-sm-2', htmlFor: 'pwd' },
-							'Password'
-						),
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							'div',
-							{ className: 'col-sm-10' },
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'password', className: 'form-control', id: 'pwd', placeholder: 'Enter a password', name: 'password', value: this.state.password, onChange: this.handlePasswordChange.bind(this) })
-						)
-					),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'div',
-						{ className: 'form-group' },
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							'div',
-							{ className: 'col-sm-offset-2 col-sm-10' },
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								'button',
-								{ type: 'submit', className: 'btn btn-default' },
-								'Save'
-							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								'a',
-								{ href: '/users', className: 'btn btn-default' },
-								'Users List'
-							)
-						)
-					),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'div',
-						{ className: 'form-group' },
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							'h3',
-							null,
-							'This is a frendly message'
-						),
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							'p',
-							null,
-							'Hi ',
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								'strong',
-								null,
-								this.state.name,
-								'.'
-							),
-							' Your email is ',
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								'strong',
-								null,
-								this.state.email,
-								'.'
-							),
-							' Have a nice day! '
-						)
-					)
-				)
-			);
-		}
-	}]);
-
-	return Create;
-}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["default"] = (Create);
-
-if (document.getElementById('create')) {
-	__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Create, null), document.getElementById('create'));
-}
-
-/***/ }),
-/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54016,8 +53825,8 @@ if (document.getElementById('create')) {
 
 
 
-var _assign = __webpack_require__(15);
-var invariant = __webpack_require__(4);
+var _assign = __webpack_require__(5);
+var invariant = __webpack_require__(2);
 var hasOwnProperty = {}.hasOwnProperty;
 
 function shallowCopy(x) {
@@ -54174,14 +53983,240 @@ module.exports = update;
 
 
 /***/ }),
-/* 68 */
+/* 61 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var Create = function (_React$Component) {
+	_inherits(Create, _React$Component);
+
+	function Create() {
+		_classCallCheck(this, Create);
+
+		var _this = _possibleConstructorReturn(this, (Create.__proto__ || Object.getPrototypeOf(Create)).call(this));
+
+		_this.state = {
+			data: {
+				name: '',
+				email: '',
+				password: ''
+			},
+			message: '',
+			frendlyP1: 'none',
+			frendlyP2: 'none'
+		};
+		return _this;
+	}
+
+	_createClass(Create, [{
+		key: 'handleNameChange',
+		value: function handleNameChange(e) {
+			var data = Object.assign({}, this.state.data); //creating copy of object
+			data.name = e.target.value; //updating value
+			this.setState({ data: data });
+
+			if (e == '') {
+				this.setState({ frendlyP1: 'none' });
+			} else {
+				this.setState({ frendlyP1: 'block' });
+			}
+		}
+	}, {
+		key: 'handleEmailChange',
+		value: function handleEmailChange(e) {
+			var data = Object.assign({}, this.state.data); //creating copy of object
+			data.email = e.target.value; //updating value
+			this.setState({ data: data });
+
+			if (e == '') {
+				this.setState({ frendlyP2: 'none' });
+			} else {
+				this.setState({ frendlyP2: 'block' });
+			}
+		}
+	}, {
+		key: 'handlePasswordChange',
+		value: function handlePasswordChange(e) {
+			var data = Object.assign({}, this.state.data); //creating copy of object
+			data.password = e.target.value; //updating value
+			this.setState({ data: data });
+		}
+	}, {
+		key: 'handleSubmit',
+		value: function handleSubmit(e) {
+			var _this2 = this;
+
+			e.preventDefault();
+			console.log(this.state.data);
+
+			axios.post('/api/users', this.state.data).then(function (response) {
+				console.log(response);
+				_this2.setState({ message: response.data.msj });
+			}).catch(function (error) {
+				console.log(error);
+				_this2.setState({ message: 'General error', style: 'warning-message' });
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'div',
+				null,
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'h2',
+					null,
+					'Edit User'
+				),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'form',
+					{ className: 'form-horizontal', onSubmit: this.handleSubmit.bind(this) },
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'div',
+						{ className: 'form-group' },
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'label',
+							{ className: 'control-label col-sm-2', htmlFor: 'name' },
+							'Name:'
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: 'col-sm-10' },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'name', placeholder: 'Enter a name', name: 'name', value: this.state.data.name, onChange: this.handleNameChange.bind(this) })
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'div',
+						{ className: 'form-group' },
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'label',
+							{ className: 'control-label col-sm-2', htmlFor: 'email' },
+							'Email'
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'dir',
+							{ className: 'col-sm-10' },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'email', className: 'form-control', id: 'email', placeholder: 'Enter an Email', name: 'email', value: this.state.data.email, onChange: this.handleEmailChange.bind(this) })
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'div',
+						{ className: 'form-group' },
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'label',
+							{ className: 'control-label col-sm-2', htmlFor: 'pwd' },
+							'Password'
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: 'col-sm-10' },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'password', className: 'form-control', id: 'pwd', placeholder: 'Enter a password', name: 'password', value: this.state.data.password, onChange: this.handlePasswordChange.bind(this) })
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'div',
+						{ className: 'form-group' },
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: 'col-sm-offset-2 col-sm-10' },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'button',
+								{ type: 'submit', className: 'btn btn-default' },
+								'Save'
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'a',
+								{ href: '/users', className: 'btn btn-default' },
+								'Users List'
+							)
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'div',
+						{ className: 'form-group' },
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'h3',
+							{ className: this.state.style },
+							this.state.message
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'div',
+						{ className: 'form-group' },
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'h3',
+							null,
+							'This is a frendly message'
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'p',
+							{ style: { display: this.state.frendlyP1 } },
+							'Hi ',
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'strong',
+								null,
+								this.state.data.name,
+								'. '
+							),
+							'This is a bind data example'
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'p',
+							{ style: { display: this.state.frendlyP2 } },
+							'And your email is ',
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'strong',
+								null,
+								this.state.data.email,
+								'.'
+							)
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'p',
+							null,
+							'Have a nice day! '
+						)
+					)
+				)
+			);
+		}
+	}]);
+
+	return Create;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Create);
+
+
+if (document.getElementById('create')) {
+	__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Create, null), document.getElementById('create'));
+}
+
+/***/ }),
+/* 62 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -54246,13 +54281,17 @@ var Edit = function (_React$Component) {
 	}, {
 		key: 'handleSubmit',
 		value: function handleSubmit(e) {
+			var _this3 = this;
+
 			e.preventDefault();
 			console.log(this.state);
 
 			axios.put('/api/users/' + this.props.id, this.state).then(function (response) {
 				console.log(response);
+				_this3.setState({ message: response.data.msj });
 			}).catch(function (error) {
 				console.log(error);
+				_this3.setState({ message: 'General error', style: 'warning-message' });
 			});
 		}
 	}, {
@@ -54264,7 +54303,7 @@ var Edit = function (_React$Component) {
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 					'h2',
 					null,
-					'Add New User'
+					'Edit User'
 				),
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 					'form',
@@ -54315,6 +54354,15 @@ var Edit = function (_React$Component) {
 						'div',
 						{ className: 'form-group' },
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'h3',
+							{ className: this.state.style },
+							this.state.message
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'div',
+						{ className: 'form-group' },
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 							'div',
 							{ className: 'col-sm-offset-2 col-sm-10' },
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -54343,6 +54391,12 @@ if (document.getElementById('edit')) {
 	var id = $("#edit").data("id");
 	__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Edit, { id: id }), document.getElementById('edit'));
 }
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Validator;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -38,15 +39,35 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User();
+        /*
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|string',
+            'password' => 'required'
+        ]);
+        */
+        $email = $request->email;
+        $email = User::where('email',$email)->first();
+        if ($email) {
+            return response()->json(['msj'=>'The user already exist']);
+        }
+        if ($request->name == '') {
+            return response()->json(['msj'=>'The name cant be empty']);
+        }
+        if ($request->email == '') {
+            return response()->json(['msj'=>'The email cant be empty']);
+        }
+        if ($request->password == '') {
+            return response()->json(['msj'=>'The password can be empty']);
+        }
 
-        $user->name = $request->get('name');
-        $user->email = $request->get('email');
-        $user->password = bcrypt($request->get('password'));
 
-        $user->save();
+        $user = new User;
+        $input = $request->all();
+        $user->fill($input)->save();
 
-        return $user;
+        return response()->json(['msj'=>'User created successfully']);
+
     }
 
     /**
@@ -82,13 +103,36 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+
         $user = User::findOrFail($id);
+        $email = $request->email;
+        $currentEmail = $user->email;
+
+        if ($currentEmail !== $email) {
+            $newEmail = User::where('email',$email)->first();
+            if ($newEmail) {
+                return response()->json(['msj'=>'The user already exist']);
+            }
+        }
+
+        if ($request->name == '') {
+            return response()->json(['msj'=>'The name cant be empty']);
+        }
+        if ($request->email == '') {
+            return response()->json(['msj'=>'The email cant be empty']);
+        }
+        if ($request->password == '') {
+            return response()->json(['msj'=>'The password can be empty']);
+        }
+
+
 
         $input = $request->all();
 
         $user->fill($input)->save();
 
-        return response()->json($user);
+        return response()->json(['msj'=>'User updated successfully']);
     }
 
     /**
