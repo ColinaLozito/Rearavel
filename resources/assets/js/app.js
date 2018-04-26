@@ -18,3 +18,6 @@ window.axios = require('axios');
 require('./components/User');
 require('./components/Create');
 require('./components/Edit');
+
+require('./components/Todo');
+require('./components/FileForm');

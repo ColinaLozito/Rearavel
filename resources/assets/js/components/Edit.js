@@ -7,6 +7,8 @@ export default class Edit extends React.Component{
 		super();
 
 		this.state = {
+			dni_type:'',
+			dni:'',
 			name:'',
 			email:'',
 			password:''
@@ -17,18 +19,31 @@ export default class Edit extends React.Component{
 
 		let id = this.props.id
 
-		axios.get('/api/users/'+id).then(response => {
+		axios.get('../../api/users/'+id).then(response => {
 			var user = response.data
 
+			console.log(response.data);
+		
 			this.setState({
+				dni_type: user.dni_type,
+				dni: user.dni,
 				name: user.name,
 				email: user.email
 			})
+			
 
 		}).catch(error =>{
 			console.log(error);
 		})
 
+	}
+
+	handleDniTypeChange(e){
+		this.setState({dni_type: e.target.value});
+	}
+
+	handleDniChange(e){
+		this.setState({dni: e.target.value});
 	}
 
 	handleNameChange(e){ 
@@ -47,7 +62,7 @@ export default class Edit extends React.Component{
 		e.preventDefault();
 		console.log(this.state)
 
-		axios.put('/api/users/'+this.props.id, this.state).then(response => {
+		axios.put('../../api/users/'+this.props.id, this.state).then(response => {
 			console.log(response);
 			this.setState({message:response.data.msj})			
 		}).catch(error => {
@@ -61,6 +76,22 @@ export default class Edit extends React.Component{
 			<div>
 				<h2>Edit User</h2>
 				<form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
+					<div className="form-group">
+						<label className="control-label col-sm-2" htmlFor="dni_type">DNI:</label>
+						<div className="col-sm-10">
+							<select className="form-control" value={this.state.dni_type} onChange={this.handleDniTypeChange.bind(this)}>
+								<option>Select...</option>             			
+								<option value='CC'>CC</option>             			
+								<option value='CE'>CE</option>             			
+								<option value='NIT'>NIT</option>             			
+								<option value='PASSPORT'>PASSPORT</option>             			
+							
+							</select>
+						</div>
+						<div className="col-sm-10">
+							<input type="text" className="form-control" id="dni" placeholder="Enter a dni" name="dni" value={this.state.dni} onChange={this.handleDniChange.bind(this)} />
+						</div>
+					</div>
 					<div className="form-group">
 						<label className="control-label col-sm-2" htmlFor="name">Name:</label>
 						<div className="col-sm-10">
@@ -85,7 +116,7 @@ export default class Edit extends React.Component{
 					<div className="form-group">
 						<div className="col-sm-offset-2 col-sm-10">
 							<button type="submit" className="btn btn-default">Update</button>
-							<a href={'/users'} className="btn btn-default">Users List</a>
+							<a href={'../'} className="btn btn-default">Users List</a>
 						</div>
 					</div>
 				</form>

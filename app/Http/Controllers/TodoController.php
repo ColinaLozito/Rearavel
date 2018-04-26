@@ -4,15 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class TodoController extends Controller
 {
-
-    public function __construct(){
-        $this->middleware('auth', ['only' => [
-            'index',
-            'edit',
-        ]]);
-    }
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view("users");
+        return view("todo");
     }
 
     /**
@@ -30,7 +23,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('create');
+        //
     }
 
     /**
@@ -63,7 +56,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        return view("edit", compact('id', $id));
+        //
     }
 
     /**
@@ -75,7 +68,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        //
     }
 
     /**

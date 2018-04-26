@@ -8,7 +8,7 @@ export default class User extends Component {
 		super();
 		this.state = {
 			data: [],
-			url: '/api/users',
+			url: 'api/users',
 			pagination: []
 		}
 	}
@@ -21,6 +21,7 @@ export default class User extends Component {
 		let $this = this
 
 		axios.get(this.state.url).then(response => {
+			console.log($this.state.data);
 			$this.setState({
 				data: $this.state.data.length > 0 ? $this.state.data.concat(response.data.data) : response.data.data,
 				url: response.data.next_page_url
@@ -61,11 +62,13 @@ export default class User extends Component {
 		return (
             <div>
                 <h2>User Listing</h2>
-                <a href="/users/create" className="btn btn-primary">Add new user</a>
-                <table className="table table-bordered">
+                <a href="users/create" className="btn btn-primary">Add new user</a>
+                    <table className="table table-bordered">
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>DNI TYPE</th>
+                            <th>DNI</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Action</th>
@@ -113,10 +116,12 @@ class UserRow extends React.Component {
 		return (
 			<tr key={this.props.i}>
                 <td>{this.props.user.id}</td>
+                <td>{this.props.user.dni_type}</td>
+                <td>{this.props.user.dni}</td>
                 <td>{this.props.user.name}</td>
                 <td>{this.props.user.email}</td>
                 <td>
-                    <a href={"/users/"+this.props.user.id+"/edit"} className="btn btn-primary">EDIT</a>
+                    <a href={"users/"+this.props.user.id+"/edit"} className="btn btn-primary">EDIT</a>
                     ||
                     <a className="btn btn-danger" onClick={this.deleteUser.bind(this, this.props.user, this.props.object)}>DELETE</a>
                 </td>

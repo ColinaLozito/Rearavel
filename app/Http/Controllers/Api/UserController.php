@@ -39,13 +39,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        /*
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string',
-            'password' => 'required'
-        ]);
-        */
+        
+        $user = new User;
+
+        $user->dni_type = $request->dni_type;
+        $user->dni = $request->dni;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+
+
+        $user->save();
+
+
+    
         $email = $request->email;
         $email = User::where('email',$email)->first();
         if ($email) {
@@ -62,11 +69,9 @@ class UserController extends Controller
         }
 
 
-        $user = new User;
-        $input = $request->all();
-        $user->fill($input)->save();
 
-        return response()->json(['msj'=>'User created successfully']);
+
+        return response()->json(['msj'=>'user created successfully']);
 
     }
 
@@ -128,11 +133,16 @@ class UserController extends Controller
 
 
 
-        $input = $request->all();
+        $user->dni_type = $request->dni_type;
+        $user->dni = $request->dni;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
 
-        $user->fill($input)->save();
 
-        return response()->json(['msj'=>'User updated successfully']);
+        $user->update();
+
+        return response()->json(['msj'=>$request->dni_type]);
     }
 
     /**

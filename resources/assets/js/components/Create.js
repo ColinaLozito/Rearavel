@@ -8,14 +8,34 @@ export default class Create extends React.Component{
 
 		this.state = {
 			data: {
+				dni_type:'',
+				dni:'',
 				name:'',
 				email:'',
-				password:'',
+				password:''
 			},
+			dni_type: [
+				'CC',
+				'CE',
+				'NIT',
+				'PASSPORT'
+			],
 			message:'',
 			frendlyP1: 'none',
 			frendlyP2: 'none'
 		}
+	}
+
+	handleDniTypeChange(e){
+		let data = Object.assign({}, this.state.data);    //creating copy of object
+		data.dni_type = e.target.value;                        //updating value
+		this.setState({data});
+	}
+
+	handleDniChange(e){
+		let data = Object.assign({}, this.state.data);    //creating copy of object
+		data.dni = e.target.value;                        //updating value
+		this.setState({data});
 	}
 
 	handleNameChange(e){ 
@@ -28,6 +48,7 @@ export default class Create extends React.Component{
 		}else{
 			this.setState({frendlyP1: 'block'})
 		}
+		console.log();
 	}
 
 	handleEmailChange(e){
@@ -53,7 +74,7 @@ export default class Create extends React.Component{
 		console.log(this.state.data)
 
 		
-		axios.post('/api/users', this.state.data).then(response => {
+		axios.post('../api/users', this.state.data).then(response => {
 			console.log(response);
 			this.setState({message:response.data.msj})			
 		}).catch(error => {
@@ -67,8 +88,26 @@ export default class Create extends React.Component{
 	render(){
 		return (
 			<div>
-				<h2>Edit User</h2>
+				<h2>Add New User</h2>
 				<form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
+					<div className="form-group">
+						<label className="control-label col-sm-2" htmlFor="dni_type">DNI:</label>
+						<div className="col-sm-10">
+							<select className="form-control" onChange={this.handleDniTypeChange.bind(this)}>
+								<option>Select...</option>             			
+							{
+								this.state.dni_type.map(	
+		                    		(dni_type, value) => (
+		                    			<option value={dni_type}>{dni_type}</option>
+		                    		)
+		                    	)
+		                    }	
+							</select>
+						</div>
+						<div className="col-sm-10">
+							<input type="text" className="form-control" id="dni" placeholder="Enter a dni" name="dni" value={this.state.data.dni} onChange={this.handleDniChange.bind(this)} />
+						</div>
+					</div>
 					<div className="form-group">
 						<label className="control-label col-sm-2" htmlFor="name">Name:</label>
 						<div className="col-sm-10">
@@ -90,7 +129,7 @@ export default class Create extends React.Component{
 					<div className="form-group">
 						<div className="col-sm-offset-2 col-sm-10">
 							<button type="submit" className="btn btn-default">Save</button>
-							<a href={'/users'} className="btn btn-default">Users List</a>
+							<a href={'../users'} className="btn btn-default">Users List</a>
 						</div>
 					</div>
 					<div className="form-group">

@@ -11,8 +11,23 @@
 |
 */
 
-Route::get('/', function () {
-    return view('users');
-});
+
+
+Route::resource('todo', 'TodoController');
+
+
+
+
+Auth::routes();
+
+Route::get('/', 'Auth\LoginController@showLoginForm')->middleware('guest');
+
+Route::post('login', 'Auth\LoginController@login')->name('login');
+
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::resource('users', 'UserController');
+
+Route::get('fileUpload', 'FileController@upload')->name('fileUpload');
+
+Route::get('fileList', 'FileController@list')->name('fileList');

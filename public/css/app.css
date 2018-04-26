@@ -10008,3 +10008,14 @@ a.text-dark:focus {
   color: red;
 }
 
+.myForm {
+  min-width: 500px;
+  position: absolute;
+  text-align: center;
+  top: 300px;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  font-size: 2.5rem;
+}
+
