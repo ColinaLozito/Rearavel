@@ -79,7 +79,7 @@ export default class Edit extends React.Component{
 					<div className="form-group">
 						<label className="control-label col-sm-2" htmlFor="dni_type">DNI:</label>
 						<div className="col-sm-10">
-							<select className="form-control" value={this.state.dni_type} onChange={this.handleDniTypeChange.bind(this)}>
+							<select className="form-control" required value={this.state.dni_type} onChange={this.handleDniTypeChange.bind(this)}>
 								<option>Select...</option>             			
 								<option value='CC'>CC</option>             			
 								<option value='CE'>CE</option>             			
@@ -89,25 +89,25 @@ export default class Edit extends React.Component{
 							</select>
 						</div>
 						<div className="col-sm-10">
-							<input type="text" className="form-control" id="dni" placeholder="Enter a dni" name="dni" value={this.state.dni} onChange={this.handleDniChange.bind(this)} />
+							<input type="text" className="form-control" id="dni" placeholder="Enter a dni" name="dni" required value={this.state.dni} onChange={this.handleDniChange.bind(this)} />
 						</div>
 					</div>
 					<div className="form-group">
 						<label className="control-label col-sm-2" htmlFor="name">Name:</label>
 						<div className="col-sm-10">
-							<input type="text" className="form-control" id="name" placeholder="Enter a name" name="name" value={this.state.name} onChange={this.handleNameChange.bind(this)} />
+							<input type="text" className="form-control" id="name" placeholder="Enter a name" name="name" required value={this.state.name} onChange={this.handleNameChange.bind(this)} />
 						</div>
 					</div>
 					<div className="form-group">
 						<label className="control-label col-sm-2" htmlFor="email">Email</label>
 						<dir className="col-sm-10">
-							<input type="email" className="form-control" id="email" placeholder="Enter an Email" name="email" value={this.state.email} onChange={this.handleEmailChange.bind(this)}/>
+							<input type="email" className="form-control" id="email" placeholder="Enter an Email" name="email" required value={this.state.email} onChange={this.handleEmailChange.bind(this)}/>
 						</dir>
 					</div>
 					<div className="form-group">	
 						<label className="control-label col-sm-2" htmlFor="pwd">Password</label>
 						<div className="col-sm-10">
-							<input type="password" className="form-control" id="pwd" placeholder="Enter a password" name="password" value={this.state.password} onChange={this.handlePasswordChange.bind(this)}/>
+							<input type="password" className="form-control" id="pwd" placeholder="Enter a password" name="password" required value={this.state.password} onChange={this.handlePasswordChange.bind(this)}/>
 						</div>
 					</div>
 					<div className="form-group">
