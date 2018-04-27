@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class FileController extends Controller
 {
@@ -16,14 +17,28 @@ class FileController extends Controller
 
 
         if ($request->hasFile('text_file')) {
-            //get file with extension
-            $fileNameWithExt = $request->text_file;
-     
-            //$path = $request->file('text_file')->storeAs('public/text_files/', $fileNameWithExt);
+            
 
-            \Storage::disk('local')->put($fileNameWithExt, 'text_file');    
+            $file = $request->file('text_file');
 
-            return back()->withErrors(['text_file'=>'Text file loaded']);
+            $contents = File::get($file);
+
+            $lines = preg_split('/\n|\r\n?/', $contents);
+
+            foreach ($lines as $key => $line) {
+                preg_match_all("/[A-Z]/", $line, $caps_match); 
+
+                $caps = $caps_match [0];
+                
+                $caps_count = count($caps_match [0]); 
+
+                print "($line) - : ". json_encode($caps) .'<br/>'; 
+                # code...
+            }
+
+
+
+            //return back()->withErrors(['text_file'=>'Text file loaded']);
         }else {
             return back()->withErrors(['text_file'=>'Text file error']);
         }
