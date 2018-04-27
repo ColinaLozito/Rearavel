@@ -31,3 +31,5 @@ Route::resource('users', 'UserController');
 Route::post('fileUpload', 'FileController@upload')->name('fileUpload');
 
 Route::get('fileList', 'FileController@list')->name('fileList');
+
+Route::get('recordList', 'FileController@getRecords')->name('recordList');
