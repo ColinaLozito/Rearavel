@@ -28,6 +28,6 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::resource('users', 'UserController');
 
-Route::get('fileUpload', 'FileController@upload')->name('fileUpload');
+Route::post('fileUpload', 'FileController@upload')->name('fileUpload');
 
 Route::get('fileList', 'FileController@list')->name('fileList');

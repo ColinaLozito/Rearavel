@@ -6,7 +6,7 @@
         <div class="col-md-4 col-md-offset-3">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h1 class="panel-title">acceso a la palicion</h1>
+                    <h1 class="panel-title">Login</h1>
                     
                 </div>
                 <div class="panel-body">

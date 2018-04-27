@@ -7,16 +7,13 @@
 
 		<div>
 			<h2>ADD TXT FILE</h2>
-			<form class="form-horizontal" method="GET" action="{{ route('fileUpload') }}">
-
-				<div class="form-group">
-					<label class="control-label col-sm-2" htmlFor="name">Txt File:</label>
-						<div class="col-sm-10">
-							<input type="file" class="form-control" id="file" name="file"/>
-						</div>
-					</div>
-				<button class="btn " type="submit">Upload</button>
-			</form>
+			{!! Form::open(['action'=>'FileController@upload', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
+				<div class="form-group col-md-4">
+					{{ Form::file('text_file', ['class'=>'form-control'] ) }}
+				</div>
+				{!! $errors->first('text_file', '<span class="help-block">:message</span>') !!}
+				{{Form::submit('Submit', ['class'=>'btn btn-primary col-md-4'])}}
+			{!! Form::close() !!}
 		</div>
 
 		</div>
