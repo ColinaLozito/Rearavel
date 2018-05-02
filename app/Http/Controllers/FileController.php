@@ -49,9 +49,6 @@ class FileController extends Controller
             $upperCase->uppercase_str = implode(max($upperCases));
             $upperCase->save();
 
-
-
-
             return back()->withErrors(['text_file'=>'File operation doned!!']);
         }else {
             return back()->withErrors(['text_file'=>'Text file error']);
@@ -66,9 +63,6 @@ class FileController extends Controller
     }
 
     public function getRecords() {
-
-        $response = Uppercase::get()->all();
-
 
         $newRecords = [];
 

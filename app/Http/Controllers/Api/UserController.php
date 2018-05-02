@@ -40,21 +40,9 @@ class UserController extends Controller
     public function store(Request $request)
     {
         
-        $user = new User;
-
-        $user->dni_type = $request->dni_type;
-        $user->dni = $request->dni;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-
-
-        $user->save();
-
-
-    
         $email = $request->email;
         $email = User::where('email',$email)->first();
+
         if ($email) {
             return response()->json(['msj'=>'The user already exist']);
         }
@@ -69,7 +57,16 @@ class UserController extends Controller
         }
 
 
+        $user = new User;
 
+        $user->dni_type = $request->dni_type;
+        $user->dni = $request->dni;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+
+
+        $user->save();
 
         return response()->json(['msj'=>'user created successfully']);
 
