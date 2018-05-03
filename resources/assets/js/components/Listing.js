@@ -20,7 +20,7 @@ export default class Listing extends React.Component{
 		let $this = this
 
 		axios.get('recordList').then(response => {
-			console.log(response.data)
+			console.log(response)
 			$this.setState({
 				data: response.data
 			})

@@ -64,6 +64,8 @@ class FileController extends Controller
 
     public function getRecords() {
 
+        $response = Uppercase::get()->all();
+
         $newRecords = [];
 
         foreach ($response as $key => $record) {

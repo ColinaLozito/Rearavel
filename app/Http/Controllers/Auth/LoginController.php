@@ -15,12 +15,17 @@ class LoginController extends Controller
 
     public function showLoginForm(){
 
-        return view('auth.login');
 
+        if (Auth::user()) {
+             return redirect('users');
+        }
+
+        return view('auth.login');
     }
 
 
     public function login(){
+
         $credentials = $this->validate(request(), [
             'email' => 'email|required|string',
             'password' => 'required|string'
@@ -28,11 +33,12 @@ class LoginController extends Controller
 
        if ( Auth::attempt($credentials)) {
             
-            return redirect()->route('users.index');
+            return response()->json(1);
 
         }
 
-        return back()->withErrors(['email'=>'Wrong User']);
+        return response()->json('wrong user');
+        //return back()->withErrors(['email'=>'Wrong User']);
     }
 
 
