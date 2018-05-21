@@ -9994,6 +9994,21 @@ a.text-dark:focus {
   }
 }
 
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.main-container {
+  height: 90%;
+}
+
+.main-container main {
+  height: 100%;
+  position: relative;
+}
+
 .navbar-laravel {
   background-color: #fff;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -10017,5 +10032,87 @@ a.text-dark:focus {
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   font-size: 2.5rem;
+}
+
+.app-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.app-content .link-container {
+  display: inline-block;
+}
+
+.app-content .link-container .btn {
+  display: block;
+  font-size: 30px;
+  margin: auto;
+  width: 300px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.users-list .add-user {
+  margin: 20px;
+}
+
+.todo-app-container form .form-control {
+  margin-bottom: 15px;
+}
+
+.file-container form .file-input {
+  color: transparent;
+  background-color: transparent;
+  border: transparent;
+  width: 163px;
+  display: inline-block;
+}
+
+.file-container form .file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+.file-container form .file-input::before {
+  zoom: 150%;
+  content: 'Select a file';
+  color: black;
+  display: inline-block;
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+
+.file-container form .file-input:hover::before {
+  border-color: black;
+}
+
+.file-container form .file-input:active {
+  outline: 0;
+}
+
+.file-container form .btn {
+  display: inline-block;
+  margin-top: -73px;
+}
+
+.file-container .file-records-btn {
+  display: block;
+  margin: auto;
+  font-size: 30px;
+  background-color: #e6e6e6;
+}
+
+.file-container .file-p-container {
+  text-align: center;
 }
 

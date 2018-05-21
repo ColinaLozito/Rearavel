@@ -79,8 +79,8 @@ export default class Todo extends Component{
 
 		render(){
 			return (
-				<div>
-					<h2>Add To Do thing to the List</h2>
+				<div className="todo-app-container">
+					<h2>To buy thing Listing Calculator</h2>
 		            <form className="form-horizontal" id='todoForm' onSubmit={this.handleSubmit.bind(this)}>
 		                <div className="form-group col-sm-12">
 		                	<div className="col-sm-3">

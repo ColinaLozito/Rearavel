@@ -15,11 +15,6 @@ class LoginController extends Controller
 
     public function showLoginForm(){
 
-
-        if (Auth::user()) {
-             return redirect('users');
-        }
-
         return view('auth.login');
     }
 

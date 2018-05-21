@@ -35,7 +35,7 @@ export default class Listing extends React.Component{
 		return (
             <div>
                 <h2>Record Listing</h2>
-                <a href={'users'}><h3>Back</h3></a>
+                <a href={'file'}><h3>Back</h3></a>
                 
                     <table className="table table-bordered">
                     <thead>

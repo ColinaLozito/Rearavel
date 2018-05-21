@@ -15,13 +15,8 @@ export default class FileForm extends React.Component{
 	}
 
 	componentWillMount(){
-
 		let id = this.props.id
-
-
 		console.log('user id ' + id);
-
-
 	}	
 	/*
 	handleFileChange(e){
@@ -31,9 +26,6 @@ export default class FileForm extends React.Component{
 		data.file = e.target.value;                    //updating value
 		this.setState({data});
 	}*/
-
-
-
 
 	handleFileChange(e) {
       let files = e.target.files || e.dataTransfer.files;
@@ -54,7 +46,6 @@ export default class FileForm extends React.Component{
       reader.readAsDataURL(file);
     }
 
-
 	handleSubmit(e){
 		e.preventDefault();	
 		console.log(this.state.data);	
@@ -62,14 +53,14 @@ export default class FileForm extends React.Component{
 
 	render(){
 		return (
-			<div>
+			<div className="file-container">
 				<h2>ADD TXT FILE</h2>
 				<form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
 
 					<div className="form-group">
 						<label className="control-label col-sm-2" htmlFor="name">Txt File:</label>
 						<div className="col-sm-10">
-							<input type="file" className="form-control" id="file" placeholder="Select a file" name="file" onChange={this.handleFileChange.bind(this)}/>
+							<input type="file" className="form-control file-inpu" id="file" placeholder="Select a file" name="file" onChange={this.handleFileChange.bind(this)}/>
 						</div>
 					</div>
 				<button className="btn " type="submit">Upload</button>

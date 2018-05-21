@@ -36,11 +36,9 @@ export default class Login extends React.Component{
 
     handleSubmit(e){
         e.preventDefault();
-        console.log(this.state.data)
-
         axios.post('../public/login', this.state.data).then(response => {
             if (response.data == 1) {
-                window.location.replace('../public/users')
+                window.location.replace('../public/app')
             }        
         }).catch(error => {
             console.log(error); 

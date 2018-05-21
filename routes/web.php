@@ -26,7 +26,11 @@ Route::post('login', 'Auth\LoginController@login')->name('login');
 
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
+Route::get('app', 'indexController@index')->name('app');
+
 Route::resource('users', 'UserController');
+
+Route::get('file', 'FileController@index')->name('file');
 
 Route::post('fileUpload', 'FileController@upload')->name('fileUpload');
 

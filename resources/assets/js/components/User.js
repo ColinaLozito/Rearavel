@@ -60,9 +60,9 @@ export default class User extends Component {
 
 	render(){
 		return (
-            <div>
+            <div className="users-list">
                 <h2>User Listing</h2>
-                <a href="users/create" className="btn btn-primary">Add new user</a>
+                <a href="users/create" className="btn btn-primary add-user">Add new user</a>
                     <table className="table table-bordered">
                     <thead>
                         <tr>
