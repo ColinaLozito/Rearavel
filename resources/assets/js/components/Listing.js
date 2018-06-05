@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+import RecordRow from './RecordRow';
+
 export default class Listing extends React.Component{
 
 	constructor(){
@@ -8,7 +10,6 @@ export default class Listing extends React.Component{
 
 		this.state = {
 			data: []
-			
 		}
 	}
 
@@ -18,17 +19,14 @@ export default class Listing extends React.Component{
 
 	fetchRecords(){
 		let $this = this
-
 		axios.get('recordList').then(response => {
 			console.log(response)
 			$this.setState({
 				data: response.data
 			})
-
 		}).catch(error => {
 			console.log(error)
 		})
-		
 	}
 
 	render(){
@@ -60,21 +58,6 @@ export default class Listing extends React.Component{
           
             </div>
         );
-	}
-}
-
-
-class RecordRow extends React.Component {
-
-	render () {
-		return (
-			<tr key={this.props.i}>
-                <td>{this.props.record.id}</td>
-                <td>{this.props.record.user_email}</td>
-                <td>{this.props.record.uppercase_str}</td>
-                <td>{this.props.record.created_at.date}</td>
-	            </tr>
-		)
 	}
 }
 
