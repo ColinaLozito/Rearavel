@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import TodoRow from './TodoRow'
+
 
 export default class Todo extends Component{
 
@@ -80,7 +82,7 @@ export default class Todo extends Component{
 		render(){
 			return (
 				<div className="todo-app-container">
-					<h2>To buy thing Listing Calculator</h2>
+					<h2>To buy Listing Calculator</h2>
 		            <form className="form-horizontal" id='todoForm' onSubmit={this.handleSubmit.bind(this)}>
 		                <div className="form-group col-sm-12">
 		                	<div className="col-sm-3">
@@ -134,36 +136,7 @@ export default class Todo extends Component{
 
 }
 
-class TodoRow extends React.Component {
 
-	deleteTodo(todo, object){
-		var $this = object
-		const newState = $this.state.data.slice();
-
-		let newTotal = parseFloat($this.state.total) - parseFloat(todo.price)
-		let newMaxspend = parseFloat($this.state.initalmaxspend) - parseFloat(newTotal)
-		
-		newState.splice(newState.indexOf(todo),1)
-		$this.setState({
-			data: newState,
-			total: newTotal,
-			maxspend: newMaxspend
-		})
-	}
-
-
-	render () {
-		return (
-			<tr key={this.props.i}>
-                <td>{this.props.todo.item}</td>
-                <td className="text-right">{this.props.todo.price}</td>
-                <td>
-                    <a className="btn btn-danger float-right" onClick={this.deleteTodo.bind(this, this.props.todo, this.props.object)}>DELETE</a>
-                </td>
-            </tr>
-		)
-	}
-}
 
 if (document.getElementById('todo')) {
 	ReactDOM.render(<Todo/>, document.getElementById('todo') )

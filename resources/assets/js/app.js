@@ -20,5 +20,7 @@ require('./components/Login');
 require('./components/Create');
 require('./components/Edit');
 require('./components/Listing');
+require('./components/UserRow');
+require('./components/UserForm');
 
 require('./components/Todo');
