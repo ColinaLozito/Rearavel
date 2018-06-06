@@ -22,5 +22,6 @@ require('./components/Edit');
 require('./components/Listing');
 require('./components/UserRow');
 require('./components/UserForm');
+require('./components/LoginForm');
 
 require('./components/Todo');
